@@ -1,5 +1,8 @@
 
 spring:
+  output:
+    ansi:
+      enabled: always
   batch:
     job:
       names: ${job.name:helloWorldJob}

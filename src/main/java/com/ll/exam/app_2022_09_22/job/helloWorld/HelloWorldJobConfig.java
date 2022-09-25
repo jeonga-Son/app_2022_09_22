@@ -5,6 +5,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ public class HelloWorldJobConfig {
         // get("") 안에있는 것은 job의 이름이다. 메서드명과 똑같이 하는 것이 관례이다.
         // jobBuilder를 가져오는 코드이다.
         return jobBuilderFactory.get("helloWorldJob")
+                .incrementer(new RunIdIncrementer()) // 강제로 매번 다른 ID를 실행시에 파라미터로 부여.
                 .start(helloWorldStep1())
                 .build();
     }
