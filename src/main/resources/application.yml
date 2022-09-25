@@ -5,7 +5,7 @@ spring:
       enabled: always
   batch:
     job:
-      names: ${job.name:helloWorldJob}
+      names: ${job.name:withParamJob}
     jdbc:
       initialize-schema: ALWAYS
   datasource:
