@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -33,7 +35,12 @@ public class HelloWorldJobConfig {
                 .build();
     }
 
+
+    // @JobScope와 @StepScope는 스프링의 기본 Scope인 싱글톤 방식과는 대치되는 역할이다.
+    // Bean의 생성 시점이 스프링 애플리케이션이 실행되는 시점이 아닌 @JobScope, @StepScope가 명시된 메서드가 실행될 때까지 지연시키는 것을 의미한다.
+
     @Bean
+    @JobScope
     public Step helloWorldStep1() {
         return stepBuilderFactory.get("helloWorldStep1")
                 .tasklet(helloWorldTasklet())
@@ -41,6 +48,7 @@ public class HelloWorldJobConfig {
     }
 
     @Bean
+    @StepScope
     public Tasklet helloWorldTasklet() {
         return (contribution, chunkContext) -> {
             System.out.println("hello spring batch!!!");
