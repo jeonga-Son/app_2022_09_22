@@ -1,13 +1,16 @@
 package com.ll.exam.app_2022_09_22.job.withParam;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 // final이나 @NotNull을 필드 앞에 붙이면 생성자를 자동으로 생성해준다.
 // 의존성이 많아지는 경우 간결한 생성자 주입을 할 수 있도록 도와준다.
 @RequiredArgsConstructor
+@Slf4j
 public class WithParamJobConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
@@ -25,21 +29,31 @@ public class WithParamJobConfig {
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job withParamJob() {
+    public Job withParamJob(Step withParamStep1) {
         return jobBuilderFactory.get("withParamJob")
-                .start(withParamStep1())
+                .start(withParamStep1)
                 .build();
     }
 
-    private Step withParamStep1() {
+    @Bean
+    @JobScope
+    // @Bean 어노테이션 사용하려면 public이어야 됨.
+    public Step withParamStep1(Tasklet withParamStep1Tasklet) {
         return stepBuilderFactory.get("withParamStep1")
-                .tasklet(withParamStep1Tasklet())
+                .tasklet(withParamStep1Tasklet)
                 .build();
     }
 
-    private Tasklet withParamStep1Tasklet() {
+    @Bean
+    @StepScope
+    public Tasklet withParamStep1Tasklet(
+            @Value("#{jobParameters['name']}") String name,
+            @Value("#{jobParameters['age']}") String age
+    ) {
         return (contribution, chunkContext) -> {
-            System.out.println("WithParam 테스클릿 1");
+            // debug로 하는 것이 나옴. debug는 항상 실행되는 것 아님.
+            // info로 하면 개발할 때도 나오고 실제로 서버 운영될 때도 나옴.
+            log.debug("name : {}, age : {}", name, age);
 
             return RepeatStatus.FINISHED;
         };
