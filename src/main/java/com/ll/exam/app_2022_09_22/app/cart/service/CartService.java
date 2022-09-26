@@ -1,3 +1,4 @@
+
 package com.ll.exam.app_2022_09_22.app.cart.service;
 
 import com.ll.exam.app_2022_09_22.app.cart.entity.CartItem;
@@ -7,12 +8,13 @@ import com.ll.exam.app_2022_09_22.app.product.entity.ProductOption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final CartItemRepository cartItemRepository;
+
     public CartItem addItem(Member member, ProductOption productOption, int quantity) {
         CartItem oldCartItem = cartItemRepository.findByMemberIdAndProductOptionId(member.getId(), productOption.getId()).orElse(null);
 
@@ -32,5 +34,13 @@ public class CartService {
         cartItemRepository.save(cartItem);
 
         return cartItem;
+    }
+
+    public List<CartItem> getItemsByMember(Member member) {
+        return cartItemRepository.findAllByMemberId(member.getId());
+    }
+
+    public void deleteItem(CartItem cartItem) {
+        cartItemRepository.delete(cartItem);
     }
 }

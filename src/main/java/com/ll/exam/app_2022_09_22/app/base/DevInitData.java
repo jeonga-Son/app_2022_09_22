@@ -3,6 +3,7 @@ package com.ll.exam.app_2022_09_22.app.base;
 import com.ll.exam.app_2022_09_22.app.cart.service.CartService;
 import com.ll.exam.app_2022_09_22.app.member.entity.Member;
 import com.ll.exam.app_2022_09_22.app.member.service.MemberService;
+import com.ll.exam.app_2022_09_22.app.order.service.OrderService;
 import com.ll.exam.app_2022_09_22.app.product.entity.Product;
 import com.ll.exam.app_2022_09_22.app.product.entity.ProductOption;
 import com.ll.exam.app_2022_09_22.app.product.service.ProductService;
@@ -21,7 +22,7 @@ public class DevInitData {
     @Bean
     // CommandLineRunner 인터페이스는 구동 시점에 실행되는 코드가 자바 문자열 아규먼트 배열에 접근해야할 필요가 있는 경우에 사용한다.
     // 프로그램이 다 로깅된 이후 실행된다.
-    public CommandLineRunner initData(MemberService memberService, ProductService productService, CartService cartService) {
+    public CommandLineRunner initData(MemberService memberService, ProductService productService, CartService cartService, OrderService orderService) {
         return args ->
         {
             String password = "{noop}1234";
@@ -35,9 +36,12 @@ public class DevInitData {
 
             ProductOption productOption__RED_44 = product1.getProductOptions().get(0);
             ProductOption productOption__BLUE_44 = product1.getProductOptions().get(2);
+
             cartService.addItem(member1, productOption__RED_44, 1); // productOption__RED_44 총 수량 1
             cartService.addItem(member1, productOption__RED_44, 2); // productOption__RED_44 총 수량 3
             cartService.addItem(member1, productOption__BLUE_44, 1); // productOption__BLUE_44 총 수량 1
+
+            orderService.createFromCart(member1);
         };
     }
 }
