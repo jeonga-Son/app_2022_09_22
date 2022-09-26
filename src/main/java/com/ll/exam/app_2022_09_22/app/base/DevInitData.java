@@ -2,6 +2,7 @@ package com.ll.exam.app_2022_09_22.app.base;
 
 import com.ll.exam.app_2022_09_22.app.member.entity.Member;
 import com.ll.exam.app_2022_09_22.app.member.service.MemberService;
+import com.ll.exam.app_2022_09_22.app.product.service.ProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,7 @@ public class DevInitData {
     @Bean
     // CommandLineRunner 인터페이스는 구동 시점에 실행되는 코드가 자바 문자열 아규먼트 배열에 접근해야할 필요가 있는 경우에 사용한다.
     // 프로그램이 다 로깅된 이후 실행된다.
-    public CommandLineRunner initData(MemberService memberService) {
+    public CommandLineRunner initData(MemberService memberService, ProductService productService) {
         return args ->
         {
             String password = "{noop}1234";
@@ -23,6 +24,9 @@ public class DevInitData {
             Member member2 = memberService.join("user2", password, "user2@test.com");
             Member member3 = memberService.join("user3", password, "user3@test.com");
             Member member4 = memberService.join("user4", password, "user4@test.com");
+
+            productService.create("단가라 OPS", 68000, "청평화 A-1-15");
+            productService.create("쉬폰 OPS", 72000, "청평화 A-1-15");
         };
     }
 }
