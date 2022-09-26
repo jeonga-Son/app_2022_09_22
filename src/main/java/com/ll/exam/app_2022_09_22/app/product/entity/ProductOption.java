@@ -24,7 +24,13 @@ public class ProductOption extends BaseEntity {
     private String color;
     private String size;
 
+    private String displayColor;
+
+    private String displaySize;
+
     private int price;
+
+    private int wholesalePrice;
 
     // Lazy는 '게으른'이란 뜻을 가지며, 사전 의미처럼 LAZY Fetch 타입은 실제로 엔티티 조회시에 바로 가지고 오지 않고, 연관 관계에 있는 엔티티를 참조할때 그때 가지고 온다.
     @ManyToOne(fetch = LAZY)
@@ -36,8 +42,10 @@ public class ProductOption extends BaseEntity {
     private int stockQuantity; // 쇼핑몰에서 보유한 물건 개수
 
     public ProductOption(String color, String size) {
-        this.color = color;
-        this.size = size;
+        this.color = color;  // 내부 물류센터와 내부 전산에서는 이 이름이 노출된다. 수정 x
+        this.displayColor = color; // 마케팅용 이름. 수정 o
+        this.size = size; // 내부 물류센터와 내부 전산에서는 이 이름이 노출된다. 수정 x
+        this.displaySize = size; // 마케팅용 이름. 수정 o
     }
 
     public boolean isOrderable(int quantity) {
