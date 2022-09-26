@@ -28,6 +28,8 @@ public class ProductOption extends BaseEntity {
 
     private String displaySize;
 
+    private int salePrice;
+
     private int price;
 
     private int wholesalePrice;
