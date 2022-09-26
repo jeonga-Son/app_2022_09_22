@@ -15,5 +15,17 @@
   - 싱글톤 ➡️ 스프링부트앱이 꺼지기 전까지 살아있음.
   - 세션 ➡️ 브라우저당 객체가 1개씩 만들어짐.
   - 리퀘스트 ➡️ 요청당 객체가 1개.
-  -  프로토타입 ➡️ 매번 새로 만든다.
+  - 프로토타입 ➡️ 매번 새로 만든다.
+
+* 프로그램 파라미터
+  - ex) --spring.batch.job.names=withParamJob name="홍 길동" age=25
+![img_1.png](img_1.png)
+
+* Spring Batch 잡 파라미터 타입
+  - Double
+  - Long
+  - String
+  - Date
+      
+
 

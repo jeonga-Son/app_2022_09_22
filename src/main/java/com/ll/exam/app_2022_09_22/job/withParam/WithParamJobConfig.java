@@ -48,7 +48,7 @@ public class WithParamJobConfig {
     @StepScope
     public Tasklet withParamStep1Tasklet(
             @Value("#{jobParameters['name']}") String name,
-            @Value("#{jobParameters['age']}") String age
+            @Value("#{jobParameters['age']}") Long age
     ) {
         return (contribution, chunkContext) -> {
             // debug로 하는 것이 나옴. debug는 항상 실행되는 것 아님.
