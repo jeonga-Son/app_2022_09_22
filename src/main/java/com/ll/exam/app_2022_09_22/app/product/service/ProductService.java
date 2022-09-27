@@ -20,7 +20,7 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(name)
-                .salePrice(salePrice) // 도매가
+                .salePrice(salePrice)
                 .price(price) // 권장소비자가
                 .wholesalePrice(wholesalePrice)
                 .makerShopName(makerShopName)
