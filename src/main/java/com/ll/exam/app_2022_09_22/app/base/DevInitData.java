@@ -24,12 +24,18 @@ import java.util.List;
 @Profile("dev")
 @Slf4j
 public class DevInitData {
+    private boolean initDataDone = false;
+
     @Bean
     // CommandLineRunner 인터페이스는 구동 시점에 실행되는 코드가 자바 문자열 아규먼트 배열에 접근해야할 필요가 있는 경우에 사용한다.
     // 프로그램이 다 로깅된 이후 실행된다.
     public CommandLineRunner initData(CashService cashService, MemberService memberService, ProductService productService, CartService cartService, OrderService orderService) {
         return args ->
         {
+            if (initDataDone) return;;
+
+            initDataDone = true;
+
             class Helper {
                 public Order order(Member member, List<ProductOption> productOptions) {
                     for (int i=0; i< productOptions.size(); i++) {
