@@ -17,6 +17,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+// @Transactional(readOnly = true) 를 선언하면 읽기 전용으로 데이터가 변경되어도 commit되지 않는다.
+// 데이터의 변경이 없는 읽기 전용 메서드에사용되며, 영속성 컨텍스트를 플러시 하지 않으므로 약간의 성능 향상을 가질 수 있다.
 @Transactional(readOnly = true)
 public class OrderService {
     private final MemberService memberService;
@@ -63,14 +65,19 @@ public class OrderService {
         return order;
     }
 
+    //@Transactional은 클래스, 메소드, 인터페이스 위에 추가하여 사용하는 것으로, 해당 범위 내 메소드가 트랜잭션이 되도록 보장해준다.
+    // 다시 말해 메소드를 하나의 트랜젝션(단위)로 간주하여 해당 메소드가 종료되기 전까지 어떠한 개입이나 다른 변화가 반영되지 않는 것을 말한다.
+    // 이것을 선억적 트랜잭션이라고도 하는데, 직접 객체를 만들 필요 없이 선언만으로도 관리를 용이하게 해주기 때문이다.
     @Transactional
     public void payByRestCashOnly(Order order) {
         Member orderer = order.getMember();
 
+        // 주문자가 가지고 있는 돈을 가져온다.
         long restCash = orderer.getRestCash();
 
         int payPrice = order.calculatePayPrice();
 
+        // 지불금액이 예치금보다 크다면..
         if (payPrice > restCash) {
             throw new RuntimeException("예치금이 부족합니다.");
         }

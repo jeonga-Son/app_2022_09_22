@@ -23,9 +23,10 @@ public class ProductBackup extends BaseEntity {
     private String makerShopName;
     private boolean isSoldOut; // 관련 옵션들이 전부 판매불능 상태일 때
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY) // product에 대한 백업이 여러개 생길 수 있으나 @OneToOne 어노테이션을 사용하여 1개만 생성하도록.
     private Product product;
 
+    // 상품으로부터 다 똑같이 복사해서 만들어준다.
     public ProductBackup(Product product) {
         this.product = product;
         salePrice = product.getSalePrice();
