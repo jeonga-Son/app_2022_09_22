@@ -26,7 +26,7 @@ class UtilTests {
 	@Test
 	@DisplayName("문자열로 LocalDateTime 객체 만들기")
 	void t2() {
-		LocalDateTime localDateTime1 = Util.date.parse("yyyy-MM-dd HH:mm:ss.SSSSSS", "2022-09-01 23:59:59.999999");
+		LocalDateTime localDateTime1 = Util.date.parse("2022-09-01 23:59:59.999999");
 		assertThat(localDateTime1.toString().length()).isEqualTo(26);
 
 		LocalDateTime localDateTime2 = Util.date.parse("yyyy-MM-dd HH:mm:ss", "2022-09-01 23:59:59");
