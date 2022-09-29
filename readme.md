@@ -49,6 +49,10 @@
   - Reader(읽기)
   - Processor(변환)
   - Writer(쓰기)
+
+<br>
+
+* 정산테이블은 필드가 많다. 
   
 <br>
 
