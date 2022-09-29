@@ -1,21 +1,15 @@
 package com.ll.exam.app_2022_09_22.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Util {
     public static class date {
 
         public static int getEndDayOf(int year, int month) {
-            String yearMonth = year + "-";
-            String monthStr = month + "";
 
-            // 만약 달이 한자리 숫자라면 앞에 0을 붙인다.
-            if ( monthStr.length() == 1 ) {
-                monthStr = "0" + monthStr;
-            }
-
-            yearMonth += monthStr;
+            String yearMonth = year + "-" + "%02d".formatted(month);
 
             return getEndDayOf(yearMonth);
         }
@@ -26,6 +20,10 @@ public class Util {
                     convertedDate.getMonth().length(convertedDate.isLeapYear()));
 
             return convertedDate.getDayOfMonth();
+        }
+
+        public static LocalDateTime parse(String pattern, String dateText) {
+            return LocalDateTime.parse(dateText, DateTimeFormatter.ofPattern(pattern));
         }
     }
 }
